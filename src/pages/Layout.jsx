@@ -7,7 +7,7 @@ function Layout({children}) {
   return (
     <>
         <CustomNavbar/>
-            <div className='mt-5 mb-5'>
+            <div className=''>
                 {children}
             </div>
         <Footer/>

@@ -20,7 +20,7 @@ function Register() {
   };
 
   return (
-    <div className="bg-green-50 min-h-screen flex items-center justify-center">
+    <div className="bg-green-50 min-h-screen flex items-center justify-center mt-10">
       <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
         <h1 className="text-2xl font-bold text-green-600 text-center mb-6">
           Buat Akun

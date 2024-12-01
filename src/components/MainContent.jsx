@@ -40,8 +40,91 @@ function MainContent() {
         </div>
       </section>
 
-      {/* Tentang Layanan */}
+      {/* Inspirasi Bank Sampah */}
       <section className="py-16">
+        <div className="container mx-auto px-4">
+          <motion.h2
+            className="text-3xl font-bold text-center text-green-700 mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+          >
+            Inspirasi dari Bank Sampah
+          </motion.h2>
+          <motion.p
+            className="text-center text-gray-700 mb-12"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
+            Lihat bagaimana pengelolaan sampah dapat menciptakan manfaat ekonomi dan lingkungan.
+          </motion.p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Gambar 1 */}
+            <motion.div
+              className="rounded-lg overflow-hidden shadow-lg bg-white"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8 }}
+            >
+              <img
+                src="https://dlh.semarangkota.go.id/wp-content/uploads/2021/02/Bank-sampah-image-nu.or_.id.jpg"
+                alt="Bank Sampah Komunitas"
+                className="w-full h-56 object-cover"
+              />
+              <div className="p-4 text-center">
+                <h3 className="text-lg font-semibold text-green-700">Bank Sampah Komunitas</h3>
+                <p className="text-gray-600 text-sm">
+                  Contoh pengelolaan sampah berbasis komunitas yang sukses mendukung lingkungan bersih.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Gambar 2 */}
+            <motion.div
+              className="rounded-lg overflow-hidden shadow-lg bg-white"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              <img
+                src="https://cdn.antaranews.com/cache/800x533/2020/12/21/WhatsApp-Image-2020-12-21-at-18.19.24.jpeg"
+                alt="Inisiatif Hijau"
+                className="w-full h-56 object-cover"
+              />
+              <div className="p-4 text-center">
+                <h3 className="text-lg font-semibold text-green-700">Inisiatif Hijau</h3>
+                <p className="text-gray-600 text-sm">
+                  Gerakan masyarakat untuk mendaur ulang sampah menjadi barang yang bernilai.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Gambar 3 */}
+            <motion.div
+              className="rounded-lg overflow-hidden shadow-lg bg-white"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
+              <img
+                src="https://www.bankbjb.co.id/blog-content/uploads/2021/09/Bank-Sampah.jpg"
+                alt="Pengelolaan Sampah Kota"
+                className="w-full h-56 object-cover"
+              />
+              <div className="p-4 text-center">
+                <h3 className="text-lg font-semibold text-green-700">Pengelolaan Sampah Kota</h3>
+                <p className="text-gray-600 text-sm">
+                  Program pengelolaan sampah di kota yang membantu mengurangi limbah ke TPA.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Tentang Layanan */}
+      <section className="py-16" id="tentang-layanan">
         <div className="container mx-auto px-4">
           <motion.h2
             className="text-3xl font-bold text-center text-green-700 mb-8"
@@ -63,7 +146,6 @@ function MainContent() {
               },
             }}
           >
-            {/* Transaksi Mudah */}
             <motion.div
               className="bg-white rounded-lg shadow-lg p-6 text-center"
               whileHover={{ scale: 1.05 }}
@@ -73,8 +155,6 @@ function MainContent() {
               <h3 className="text-xl font-semibold text-green-600 mb-4">Transaksi Mudah</h3>
               <p>Kelola transaksi sampah Anda dengan mudah dan cepat melalui platform kami yang ramah pengguna.</p>
             </motion.div>
-
-            {/* Kategori Sampah */}
             <motion.div
               className="bg-white rounded-lg shadow-lg p-6 text-center"
               whileHover={{ scale: 1.05 }}
@@ -84,8 +164,6 @@ function MainContent() {
               <h3 className="text-xl font-semibold text-green-600 mb-4">Kategori Sampah</h3>
               <p>Jelajahi berbagai kategori sampah dan dapatkan nilai ekonomi dari sampah Anda.</p>
             </motion.div>
-
-            {/* Keuntungan Ekonomi */}
             <motion.div
               className="bg-white rounded-lg shadow-lg p-6 text-center"
               whileHover={{ scale: 1.05 }}
@@ -95,40 +173,6 @@ function MainContent() {
               <h3 className="text-xl font-semibold text-green-600 mb-4">Keuntungan Ekonomi</h3>
               <p>Tukarkan sampah Anda untuk mendapatkan uang tunai atau insentif lainnya.</p>
             </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="bg-green-100 py-12">
-        <div className="container mx-auto px-4 text-center">
-          <motion.h2
-            className="text-3xl font-bold text-green-700 mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            Mulai Kelola Sampah Anda Hari Ini
-          </motion.h2>
-          <motion.p
-            className="mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            Bergabunglah bersama kami untuk menciptakan lingkungan yang lebih bersih dan bernilai ekonomi.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            <Link
-              to="/transaksi"
-              className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-green-700 transition duration-300"
-            >
-              Lihat Transaksi
-            </Link>
           </motion.div>
         </div>
       </section>
