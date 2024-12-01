@@ -9,6 +9,9 @@ import LoginPage from './pages/LoginPage'
 import DashboardPage from './pages/User/DashboardPage'
 import PoinSayaPage from './pages/User/PoinSayaPage'
 import TransaksiBaruPage from './pages/User/TransaksiBaruPage'
+import RiwayatTransaksiPage from './pages/User/RiwayatTransaksiPage'
+import ArtikelEdukasiPage from './pages/User/ArtikelEdukasiPage'
+import KategoriSampahPage from './pages/User/KategoriSampahPage'
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -24,6 +27,10 @@ function App() {
 
           <Route path='/poin-saya' element={<PoinSayaPage/>}/>
           <Route path='/transaksi-baru' element={<TransaksiBaruPage/>}/>
+          <Route path='/riwayat-transaksi' element={<RiwayatTransaksiPage/>}/>
+
+          <Route path='/artikel-edukasi' element={<ArtikelEdukasiPage/>}/>
+          <Route path='/kategori-sampah' element={<KategoriSampahPage/>}/>
         </Routes>
       </BrowserRouter>
     </>
