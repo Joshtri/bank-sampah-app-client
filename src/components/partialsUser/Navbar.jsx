@@ -11,9 +11,9 @@ export default function Navbar({ isSidebarOpen, toggleSidebar }) {
       >
         {isSidebarOpen ? <FaTimes /> : <FaBars />}
       </button>
-      <h1 className="hidden md:block text-xl font-bold text-green-700 mr-auto ml-4">
+      <Link to='/dashboard' className="hidden md:block text-xl font-bold text-green-700 mr-auto ml-4">
         Dashboard
-      </h1>
+      </Link>
       <div>
         <Link
           to="/profil"

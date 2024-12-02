@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import LayoutUser from '../pages/LayoutUser'; // Import LayoutUser component
+import { FaChartLine } from 'react-icons/fa';
 
 function Dashboard() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Default tertutup di mobile
   const [userProfile, setUserProfile] = useState({
     nama: '',
     email: '',
@@ -50,13 +50,9 @@ function Dashboard() {
     }
   };
 
-  // Fungsi untuk toggle sidebar di mobile
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
   return (
-    <LayoutUser isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar}>
+    <>
+
       {/* Welcome Section */}
       <section className="text-center mb-8">
         <h2 className="text-3xl font-bold text-green-700">
@@ -82,7 +78,31 @@ function Dashboard() {
           </p>
         </div>
       </section>
-    </LayoutUser>
+
+      {/* Grafik Riwayat Transaksi */}
+      <section className="bg-white shadow-sm p-6 rounded-md mb-8">
+        <h3 className="text-2xl font-semibold text-green-700">Grafik Riwayat Transaksi</h3>
+        <div className="mt-4">
+          <p className="text-lg">
+            <FaChartLine className="mr-2" />
+            Grafik atau statistik transaksi sampah Anda akan tampil di sini.
+          </p>
+        </div>
+      </section>
+
+      {/* Program Penukaran Poin */}
+      <section className="bg-white shadow-sm p-6 rounded-md mb-8">
+        <h3 className="text-2xl font-semibold text-green-700">Program Penukaran Poin</h3>
+        <div className="mt-4">
+          <p className="text-lg">
+            Tukarkan poin Anda untuk mendapatkan berbagai hadiah menarik!
+          </p>
+          <button className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800">
+            Lihat Hadiah
+          </button>
+        </div>
+      </section>
+    </>
   );
 }
 
