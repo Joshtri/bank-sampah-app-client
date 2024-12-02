@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaTrash, FaCalendarAlt, FaCoins } from 'react-icons/fa';
+import LayoutUser from '../../pages/LayoutUser';
 
 const dummyData = [
   {
@@ -32,8 +33,12 @@ const dummyData = [
   },
 ];
 
+
+  
 function RiwayatTransaksi() {
+
   return (
+
     <div className="min-h-screen bg-green-50 flex flex-col items-center justify-center px-6 py-10">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl">
         {/* Header */}
