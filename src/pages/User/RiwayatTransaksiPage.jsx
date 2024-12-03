@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import RiwayatTransaksi from '../../components/User/RiwayatTransaksi'
+import RiwayatTransaksi from '../../components/User/RiwayatTransaksi/RiwayatTransaksi'
 import LayoutUser from '../LayoutUser';
 
 export default function RiwayatTransaksiPage() {

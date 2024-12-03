@@ -24,7 +24,7 @@ export default function Navbar({ isSidebarOpen, toggleSidebar }) {
         <button
           onClick={() => {
             localStorage.removeItem('token'); // Hapus token saat logout
-            window.location.href = '/login'; // Redirect ke halaman login setelah logout
+            window.location.href = '/masuk'; // Redirect ke halaman login setelah logout
           }}
           className="bg-green-700 text-white px-4 py-2 rounded-md font-semibold hover:bg-green-800"
         >
