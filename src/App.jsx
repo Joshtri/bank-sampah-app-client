@@ -15,6 +15,7 @@ import KategoriSampahPage from './pages/User/KategoriSampahPage'
 
 
 import ProtectedRoute from './components/ProtectedRoute'
+import RegisterPengepulPage from './pages/auth/RegisterPengepulPage'
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -24,8 +25,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<MainPage/>}/>
-          <Route path="/buat-akun" element={<RegisterPage />} />
+          <Route path="/buat-akun/masyarakat" element={<RegisterPage />} />
           <Route path="/masuk" element={<LoginPage />} />
+
+          <Route path='/buat-akun/pengepul' element={<RegisterPengepulPage/>}/>
+
           <Route path='/dashboard'element={<ProtectedRoute element={DashboardPage}/>}/>
 
           <Route path='/poin-saya' element={<ProtectedRoute element={PoinSayaPage}/>}/>
