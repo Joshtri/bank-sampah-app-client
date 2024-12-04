@@ -81,37 +81,43 @@ function TransaksiBaru() {
       alert("User not found. Please log in.");
       return;
     }
-
+  
     if (cart.length === 0) {
       alert("Please add at least one item to the cart.");
       return;
     }
-
-    // Menyusun data transaksi
+  
     const transaksiData = {
-      totalTransaksi: cart.reduce((acc, item) => acc + item.total, 0),
+      anggotaId: userProfile.id, // Pastikan anggotaId dikirim
+      totalTransaksi: cart.reduce((sum, item) => sum + item.total, 0),
       itemTransaksi: cart.map(item => ({
         itemSampahId: item.itemId,
-        quantity: item.quantity
+        kuantitas: item.quantity,
+        totalHarga: item.total
       }))
     };
-
-    // Membuat request ke API untuk membuat transaksi baru dengan axios
+  
+    console.log('Payload yang dikirim:', transaksiData); // Debugging
+  
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/transaksi/user/${userProfile.id}/create`, transaksiData, {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/transaksi/${userProfile.id}/create`, transaksiData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-
-      // Jika transaksi berhasil
-      alert(`Transaksi berhasil! Total transaksi Anda senilai Rp ${transaksiData.totalTransaksi.toLocaleString()}.`);
-      setCart([]); // Clear the cart after successful transaction
+  
+      if (response.data.status === 'success') {
+        alert('Transaksi berhasil!');
+        setCart([]); // Clear cart after successful transaction
+      } else {
+        alert('Error creating transaksi: ' + response.data.message);
+      }
     } catch (error) {
       console.error('Error creating transaksi:', error);
       alert('Terjadi kesalahan saat memproses transaksi.');
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-green-50 flex items-center justify-center px-6 py-10">
