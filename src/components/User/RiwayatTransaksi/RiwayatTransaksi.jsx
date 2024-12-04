@@ -69,7 +69,7 @@ function RiwayatTransaksi() {
     switch (status) {
       case 'pending':
         return 'bg-yellow-300 text-yellow-800'; // Yellow for pending
-      case 'completed':
+      case 'success':
         return 'bg-green-300 text-green-800'; // Green for completed
       case 'failed':
         return 'bg-red-300 text-red-800'; // Red for failed
