@@ -26,11 +26,11 @@ function App() {
           <Route path='/' element={<MainPage/>}/>
           <Route path="/buat-akun" element={<RegisterPage />} />
           <Route path="/masuk" element={<LoginPage />} />
-          <Route path='/dashboard'element={<DashboardPage/>}/>
+          <Route path='/dashboard'element={<ProtectedRoute element={DashboardPage}/>}/>
 
-          <Route path='/poin-saya' element={<PoinSayaPage/>}/>
-          <Route path='/transaksi-baru' element={<TransaksiBaruPage/>}/>
-          <Route path='/riwayat-transaksi' element={<RiwayatTransaksiPage/>}/>
+          <Route path='/poin-saya' element={<ProtectedRoute element={PoinSayaPage}/>}/>
+          <Route path='/transaksi-baru' element={<ProtectedRoute element={TransaksiBaruPage}/>}/>
+          <Route path='/riwayat-transaksi' element={<ProtectedRoute element={RiwayatTransaksiPage}/>}/>
 
           <Route path='/artikel-edukasi' element={<ProtectedRoute element={ArtikelEdukasiPage}/>}/>
           {/* <Route path='/artikel-edukasi' element={<ArtikelEdukasiPage/>}/> */}
