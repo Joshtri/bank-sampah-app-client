@@ -1,0 +1,3 @@
+.leaflet-container {
+  z-index: 0; /* Pastikan peta berada di bawah modal */
+}
