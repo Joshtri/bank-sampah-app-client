@@ -64,7 +64,7 @@ function CustomNavbar() {
                 Tentang Layanan
               </button>
               <Link
-                to="/buat-akun"
+                to="/buat-akun/masyarakat"
                 className="text-white hover:text-green-200 text-lg font-medium"
               >
                 Buat Akun
