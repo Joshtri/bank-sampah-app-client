@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Untuk navigasi setelah registrasi
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
@@ -17,7 +17,54 @@ function RegisterPengepul() {
     dokumenPrasyarat: null, // Untuk mengunggah dokumen
     lokasi: null, // Tambahkan lokasi untuk menyimpan koordinat {latitude, longitude}
     lokasiUrl:null,
+    provinsi: '',
+    kabupaten: '',
+    kecamatan: '',
+    kelurahan: '',
   });
+
+  const [provinces, setProvinces] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [subdistricts, setSubdistricts] = useState([]);
+
+  useEffect(() => {
+    // Fetch provinces on component mount
+    axios.get('https://nt-territory-api.vercel.app/api/provinsi').then((response) => {
+      setProvinces(response.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (formData.provinsi) {
+      // Fetch cities when a province is selected
+      axios.get(`https://nt-territory-api.vercel.app/api/kabupaten/${formData.provinsi}`).then((response) => {
+        setCities(response.data);
+        setDistricts([]);
+        setSubdistricts([]);
+      });
+    }
+  }, [formData.provinsi]);
+
+  useEffect(() => {
+    if (formData.kabupaten) {
+      // Fetch districts when a city is selected
+      axios.get(`https://nt-territory-api.vercel.app/api/kecamatan/${formData.kabupaten}`).then((response) => {
+        setDistricts(response.data);
+        setSubdistricts([]);
+      });
+    }
+  }, [formData.kabupaten]);
+
+  useEffect(() => {
+    if (formData.kecamatan) {
+      // Fetch subdistricts when a district is selected
+      axios.get(`https://nt-territory-api.vercel.app/api/kelurahan/${formData.kecamatan}`).then((response) => {
+        setSubdistricts(response.data);
+      });
+    }
+  }, [formData.kecamatan]);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -223,27 +270,113 @@ function RegisterPengepul() {
           />
         </div>
 
-        {/* Pilih Lokasi */}
-        <div className="md:col-span-2">
-          <label htmlFor="lokasi" className="block text-gray-700 font-medium mb-2">
-            Pilih Lokasi Anda
-          </label>
-          <div className="h-64 w-full border border-gray-300 rounded-lg overflow-hidden">
-            <MapContainer
-              center={[-10.1788, 123.5977]} // Koordinat Kupang
-              zoom={12}
-              className="h-full w-full"
+        {/* Provinsi */}
+        <div>
+            <label htmlFor="provinsi" className="block text-gray-700 font-medium mb-2">Provinsi</label>
+            <select
+            id="provinsi"
+            name="provinsi"
+            value={formData.provinsi}
+            onChange={handleChange}
+            className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
+            required
             >
-              <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              <LocationMarker />
-            </MapContainer>
-          </div>
-          <small className="text-gray-600 mt-2 block">
-            Klik pada peta untuk memilih lokasi bank sampah Anda.
-          </small>
+            <option value="">Pilih Provinsi</option>
+            {provinces.map((provinsi) => (
+                <option key={provinsi.id} value={provinsi.id}>{provinsi.nama}</option>
+            ))}
+            </select>
+        </div>
+
+        {/* Kabupaten */}
+        <div>
+            <label htmlFor="kabupaten" className="block text-gray-700 font-medium mb-2">Kabupaten/Kota</label>
+            <select
+            id="kabupaten"
+            name="kabupaten"
+            value={formData.kabupaten}
+            onChange={handleChange}
+            className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
+            required
+            >
+            <option value="">Pilih Kabupaten/Kota</option>
+            {cities.map((kabupaten) => (
+                <option key={kabupaten.id} value={kabupaten.id}>{kabupaten.nama}</option>
+            ))}
+            </select>
+        </div>
+
+        {/* Kecamatan */}
+        <div>
+            <label htmlFor="kecamatan" className="block text-gray-700 font-medium mb-2">Kecamatan</label>
+            <select
+            id="kecamatan"
+            name="kecamatan"
+            value={formData.kecamatan}
+            onChange={handleChange}
+            className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
+            required
+            >
+            <option value="">Pilih Kecamatan</option>
+            {districts.map((kecamatan) => (
+                <option key={kecamatan.id} value={kecamatan.id}>{kecamatan.nama}</option>
+            ))}
+            </select>
+        </div>
+
+        {/* Kelurahan */}
+        <div>
+            <label htmlFor="kelurahan" className="block text-gray-700 font-medium mb-2">Kelurahan</label>
+            <select
+            id="kelurahan"
+            name="kelurahan"
+            value={formData.kelurahan}
+            onChange={handleChange}
+            className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
+            required
+            >
+            <option value="">Pilih Kelurahan</option>
+            {subdistricts.map((kelurahan) => (
+                <option key={kelurahan.id} value={kelurahan.id}>{kelurahan.nama}</option>
+            ))}
+            </select>
+        </div>
+
+        {/* Pilih Lokasi */}
+        {/* Map or Google Maps URL */}
+        <div className="md:col-span-2">
+            <label htmlFor="lokasi" className="block text-gray-700 font-medium mb-2">Pilih Lokasi Anda</label>
+            <div className="flex flex-col gap-4">
+            <div className="h-64 w-full border border-gray-300 rounded-lg overflow-hidden">
+                <MapContainer
+                center={[-10.1788, 123.5977]} // Koordinat Kupang
+                zoom={12}
+                className="h-full w-full"
+                >
+                <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <LocationMarker />
+                </MapContainer>
+            </div>
+            <small className="text-gray-600 block">Klik pada peta untuk memilih lokasi bank sampah Anda.</small>
+            <div className="flex items-center gap-2">
+                <small className="text-gray-600">Buka Google Maps, beri tanda titik lokasi Anda, lalu klik tombol 'Bagikan' atau 'Share' dan salin tautan tersebut. Tempelkan tautan tersebut di kolom ini.</small>
+            </div>
+            <div className="flex items-center gap-2">
+                <label htmlFor="lokasiUrl" className="block text-gray-700 font-medium">Atau masukkan URL Google Maps</label>
+                <input
+                type="url"
+                id="lokasiUrl"
+                name="lokasiUrl"
+                value={formData.lokasiUrl}
+                onChange={handleChange}
+                className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
+                placeholder="Masukkan URL titik lokasi dari Google Maps"
+                />
+            </div>
+            </div>
         </div>
 
         {/* Unggah Dokumen Prasyarat */}
