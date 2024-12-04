@@ -20,7 +20,7 @@ function Login() {
     e.preventDefault();  // Mencegah reload halaman ketika form disubmit
 
     try {
-      const response = await axios.post(`http://localhost:5000/api/v1/anggota/login`, {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/anggota/login`, {
         email: formData.email,
         kataSandi: formData.kataSandi,
       });
