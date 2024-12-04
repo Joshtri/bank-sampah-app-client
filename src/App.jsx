@@ -34,7 +34,7 @@ function App() {
 
           <Route path='/artikel-edukasi' element={<ProtectedRoute element={ArtikelEdukasiPage}/>}/>
           {/* <Route path='/artikel-edukasi' element={<ArtikelEdukasiPage/>}/> */}
-          <Route path='/kategori-sampah' element={<KategoriSampahPage/>}/>
+          <Route path='/kategori-sampah' element={<ProtectedRoute element={KategoriSampahPage}/>}/>
         </Routes>
       </BrowserRouter>
     </>
