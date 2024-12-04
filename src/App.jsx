@@ -13,6 +13,9 @@ import RiwayatTransaksiPage from './pages/User/RiwayatTransaksiPage'
 import ArtikelEdukasiPage from './pages/User/ArtikelEdukasiPage'
 import KategoriSampahPage from './pages/User/KategoriSampahPage'
 
+
+import ProtectedRoute from './components/ProtectedRoute'
+
 function App() {
   // const [count, setCount] = useState(0)
 
@@ -29,7 +32,8 @@ function App() {
           <Route path='/transaksi-baru' element={<TransaksiBaruPage/>}/>
           <Route path='/riwayat-transaksi' element={<RiwayatTransaksiPage/>}/>
 
-          <Route path='/artikel-edukasi' element={<ArtikelEdukasiPage/>}/>
+          <Route path='/artikel-edukasi' element={<ProtectedRoute element={ArtikelEdukasiPage}/>}/>
+          {/* <Route path='/artikel-edukasi' element={<ArtikelEdukasiPage/>}/> */}
           <Route path='/kategori-sampah' element={<KategoriSampahPage/>}/>
         </Routes>
       </BrowserRouter>
