@@ -16,6 +16,7 @@ import KategoriSampahPage from './pages/User/KategoriSampahPage'
 
 import ProtectedRoute from './components/ProtectedRoute'
 import RegisterPengepulPage from './pages/auth/RegisterPengepulPage'
+import NotFoundPage from './pages/NotFoundPage'
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -39,6 +40,9 @@ function App() {
           <Route path='/artikel-edukasi' element={<ProtectedRoute element={ArtikelEdukasiPage}/>}/>
           {/* <Route path='/artikel-edukasi' element={<ArtikelEdukasiPage/>}/> */}
           <Route path='/kategori-sampah' element={<ProtectedRoute element={KategoriSampahPage}/>}/>
+
+          {/* Rute wildcard untuk halaman 404 */}
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </>
