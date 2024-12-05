@@ -5,7 +5,7 @@ import errorImg from '../assets/3737258.png';
 
 const NotFoundPage = () => {
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-r from-green-400 to-blue-400 text-white text-center">
+    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-r from-green-400 to-blue-300 text-white text-center">
       
       <motion.div
         initial={{ rotate: -10 }}
