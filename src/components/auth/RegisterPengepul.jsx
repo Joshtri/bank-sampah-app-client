@@ -86,49 +86,63 @@ function RegisterPengepul() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validasi kataSandi minimal 6 karakter
+    const formDataToSend = new FormData();
+formDataToSend.append('nama', formData.nama);
+formDataToSend.append('email', formData.email);
+formDataToSend.append('kataSandi', formData.kataSandi);
+formDataToSend.append('noTelepon', formData.noTelepon);
+formDataToSend.append('alamat', formData.alamat);
+formDataToSend.append('namaBankSampah', formData.namaBankSampah);
+formDataToSend.append('deskripsiBankSampah', formData.deskripsiBankSampah);
+formDataToSend.append('provinsi', formData.provinsi);
+formDataToSend.append('kabupaten', formData.kabupaten);
+formDataToSend.append('kecamatan', formData.kecamatan);
+formDataToSend.append('kelurahan', formData.kelurahan);
+
+if (formData.lokasiUrl) {
+  formDataToSend.append('lokasiUrl', formData.lokasiUrl);
+}
+if (formData.dokumenPrasyarat) {
+  formDataToSend.append('dokumenPrasyarat', formData.dokumenPrasyarat);
+}
+
+  
+    // Validasi kata sandi minimal 6 karakter
     if (formData.kataSandi.length < 6) {
       alert('Kata sandi harus memiliki minimal 6 karakter');
       return;
     }
-
-    const formDataToSend = new FormData();
-    for (const key in formData) {
-      formDataToSend.append(key, formData[key]);
-    }
-
-
-    for (const key in formData) {
-        if (key === 'lokasi') {
-          // Kirim lokasi sebagai JSON string
-          formDataToSend.append(key, JSON.stringify(formData[key]));
-        } else {
-          formDataToSend.append(key, formData[key]);
-        }
-    }
-
+  
     try {
-      // Mengirim data form ke backend
-      const response = await axios.post('http://localhost:5000/api/v1/pengepul', formDataToSend, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-
+      // Mengirim data form ke backend dalam bentuk JSON
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/pengepul`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+  
       console.log('Pengepul registered:', response.data);
-
+  
       // Setelah sukses, arahkan pengguna ke halaman status atau login
       alert('Pendaftaran berhasil! Status pendaftaran Anda sedang diproses.');
       navigate('/masuk'); // Pengalihan ke halaman login
     } catch (error) {
       console.error('Terjadi kesalahan saat pendaftaran:', error.response?.data || error.message);
-
+  
       // Menampilkan pesan error jika ada
       if (error.response) {
-        alert(`Error: ${error.response.data.error || 'Terjadi kesalahan pada server'}`);
+        alert(`Error: ${error.response.data.message || 'Terjadi kesalahan pada server'}`);
       } else {
         alert('Terjadi kesalahan, silakan coba lagi.');
       }
     }
   };
+  
+  
 
     // Komponen untuk menangkap lokasi klik pada peta
   function LocationMarker() {
@@ -156,7 +170,7 @@ function RegisterPengepul() {
         {/* Nama */}
         <div>
           <label htmlFor="nama" className="block text-gray-700 font-medium mb-2">
-            Nama
+              Nama <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -173,7 +187,7 @@ function RegisterPengepul() {
         {/* Email */}
         <div>
           <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
-            Email
+            Email <span className="text-red-500">*</span>
           </label>
           <input
             type="email"
@@ -190,7 +204,7 @@ function RegisterPengepul() {
         {/* Kata Sandi */}
         <div>
           <label htmlFor="kataSandi" className="block text-gray-700 font-medium mb-2">
-            Kata Sandi
+            Kata Sandi <span className="text-red-500">*</span>
           </label>
           <input
             type="password"
@@ -207,7 +221,7 @@ function RegisterPengepul() {
         {/* Nomor Telepon */}
         <div>
           <label htmlFor="noTelepon" className="block text-gray-700 font-medium mb-2">
-            Nomor Telepon
+            Nomor Telepon <span className="text-red-500">*</span>
           </label>
           <input
             type="tel"
@@ -224,7 +238,7 @@ function RegisterPengepul() {
         {/* Alamat */}
         <div className="md:col-span-2">
           <label htmlFor="alamat" className="block text-gray-700 font-medium mb-2">
-            Alamat
+            Alamat <span className="text-red-500">*</span>
           </label>
           <textarea
             id="alamat"
@@ -240,7 +254,7 @@ function RegisterPengepul() {
         {/* Nama Bank Sampah */}
         <div>
           <label htmlFor="namaBankSampah" className="block text-gray-700 font-medium mb-2">
-            Nama Bank Sampah
+            Nama Bank Sampah <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -257,7 +271,7 @@ function RegisterPengepul() {
         {/* Deskripsi Bank Sampah */}
         <div>
           <label htmlFor="deskripsiBankSampah" className="block text-gray-700 font-medium mb-2">
-            Deskripsi Bank Sampah
+            Deskripsi Bank Sampah <span className="text-red-500">*</span>
           </label>
           <textarea
             id="deskripsiBankSampah"
@@ -272,7 +286,9 @@ function RegisterPengepul() {
 
         {/* Provinsi */}
         <div>
-            <label htmlFor="provinsi" className="block text-gray-700 font-medium mb-2">Provinsi</label>
+            <label htmlFor="provinsi" className="block text-gray-700 font-medium mb-2">
+              Provinsi <span className="text-red-500">*</span>
+            </label>
             <select
             id="provinsi"
             name="provinsi"
@@ -290,7 +306,9 @@ function RegisterPengepul() {
 
         {/* Kabupaten */}
         <div>
-            <label htmlFor="kabupaten" className="block text-gray-700 font-medium mb-2">Kabupaten/Kota</label>
+            <label htmlFor="kabupaten" className="block text-gray-700 font-medium mb-2">
+              Kabupaten/Kota <span className="text-red-500">*</span>
+            </label>
             <select
             id="kabupaten"
             name="kabupaten"
@@ -308,7 +326,9 @@ function RegisterPengepul() {
 
         {/* Kecamatan */}
         <div>
-            <label htmlFor="kecamatan" className="block text-gray-700 font-medium mb-2">Kecamatan</label>
+            <label htmlFor="kecamatan" className="block text-gray-700 font-medium mb-2">
+            Kecamatan <span className="text-red-500">*</span>
+            </label>
             <select
             id="kecamatan"
             name="kecamatan"
@@ -326,7 +346,9 @@ function RegisterPengepul() {
 
         {/* Kelurahan */}
         <div>
-            <label htmlFor="kelurahan" className="block text-gray-700 font-medium mb-2">Kelurahan</label>
+            <label htmlFor="kelurahan" className="block text-gray-700 font-medium mb-2">
+              Kelurahan <span className="text-red-500">*</span>
+            </label>
             <select
             id="kelurahan"
             name="kelurahan"
@@ -365,7 +387,9 @@ function RegisterPengepul() {
                 <small className="text-gray-600">Buka Google Maps, beri tanda titik lokasi Anda, lalu klik tombol 'Bagikan' atau 'Share' dan salin tautan tersebut. Tempelkan tautan tersebut di kolom ini.</small>
             </div>
             <div className="flex items-center gap-2">
-                <label htmlFor="lokasiUrl" className="block text-gray-700 font-medium">Atau masukkan URL Google Maps</label>
+                <label htmlFor="lokasiUrl" className="block text-gray-700 font-medium">
+                Atau masukkan URL Google Maps <span className="text-red-500">*</span>
+                </label>
                 <input
                 type="url"
                 id="lokasiUrl"
@@ -383,7 +407,7 @@ function RegisterPengepul() {
         {/* Unggah Dokumen Prasyarat */}
         <div className="mb-4">
         <label htmlFor="dokumenPrasyarat" className="block text-gray-700 font-medium mb-2">
-            Unggah Berkas Prasyarat
+        Unggah Dokumen Prasyarat <span className="text-red-500">*</span>
         </label>
         <small className="text-gray-600">
             Mohon unggah dokumen berikut dalam format PDF, JPG, atau PNG (maksimal 5MB):
@@ -411,7 +435,7 @@ function RegisterPengepul() {
             name="dokumenPrasyarat"
             onChange={handleFileChange}
             className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 mt-3"
-            required
+            
         />
         </div>
       </div>
