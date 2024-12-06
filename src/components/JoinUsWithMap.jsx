@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import { FaTrash } from 'react-icons/fa'; // Ikon React Icons
 import 'leaflet/dist/leaflet.css';
-import './map.css'
+import './map.css';
 
 const trashMarkerIcon = new L.DivIcon({
   html: `<div style="font-size: 24px; color: green;"><i>${FaTrash().props.children}</i></div>`,
@@ -43,7 +43,7 @@ function JoinUsWithMap() {
         </p>
         {/* Map Section */}
         <div className="relative bg-white rounded-lg shadow-lg overflow-hidden">
-          <div className="h-[500px] w-full">
+          <div className="h-[300px] w-full"> {/* Ubah tinggi dari 500px menjadi 300px */}
             <MapContainer
               center={[-8.6573, 121.0794]} // Pusat NTT
               zoom={7}
@@ -79,8 +79,7 @@ function JoinUsWithMap() {
       {/* Modal Pilihan */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-  <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative z-50">
-
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative z-50">
             <h3 className="text-xl font-bold text-green-700 mb-4">Pilih Jenis Keanggotaan</h3>
             <p className="text-gray-600 mb-6">Silakan pilih peran Anda untuk bergabung dengan Eco Bank.</p>
             <div className="space-y-4">

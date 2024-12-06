@@ -8,7 +8,7 @@ function Footer() {
           &copy; 2024 EcoBank. Semua hak dilindungi. <br />
           Made with ❤️ for a cleaner planet.
         </p>
-        <div className="mt-4">
+        {/* <div className="mt-4">
           <a
             href="/tentang"
             className="text-white hover:text-green-200 mx-2"
@@ -27,7 +27,7 @@ function Footer() {
           >
             Kebijakan Privasi
           </a>
-        </div>
+        </div> */}
       </div>
     </footer>
   );
