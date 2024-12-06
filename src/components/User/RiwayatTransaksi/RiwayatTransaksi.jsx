@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { FaTrash, FaCalendarAlt, FaMapMarkedAlt } from 'react-icons/fa';
-import useUserProfile from '../../../hooks/useUserProfile'; // Import custom hook
+import { FaTrash, FaCalendarAlt, FaMapMarkedAlt, FaTruck } from 'react-icons/fa';
+import useUserProfile from '../../../hooks/useUserProfile';
 import axios from 'axios';
-import DetailTransaksi from '../RiwayatTransaksi/DetailTransaksi'; // Import the new TransactionDetail component
-import StatusIndicator from '../../shared/StatusIndicator'; // Import shared StatusIndicator component
+import DetailTransaksi from '../RiwayatTransaksi/DetailTransaksi';
+import StatusIndicator from '../../shared/StatusIndicator';
+import TabMenuTransaksi from './TabMenuTransaksi'; // Import TabMenuTransaksi
 
 function RiwayatTransaksi() {
   const userProfile = useUserProfile();
-
-  // State for holding transaction data
   const [transactions, setTransactions] = useState([]);
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState(null); // Error state
-  const [selectedTransaction, setSelectedTransaction] = useState(null); // For detail view
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [activeTab, setActiveTab] = useState('all'); // Menyimpan status tab aktif
 
   // Fetch transaction data based on userProfile.id
   useEffect(() => {
@@ -23,9 +23,9 @@ function RiwayatTransaksi() {
 
         try {
           const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/transaksi/user/${userProfile.id}`);
-          setTransactions(response.data); // Set the transaction data
+          setTransactions(response.data);
         } catch (err) {
-          setError('Gagal mengambil data transaksi.'); // Error handling
+          setError('Gagal mengambil data transaksi.');
         } finally {
           setLoading(false);
         }
@@ -33,7 +33,22 @@ function RiwayatTransaksi() {
 
       fetchTransactions();
     }
-  }, [userProfile.id]); // Fetch when userProfile.id changes
+  }, [userProfile.id]);
+
+  // Filter transaksi berdasarkan tab aktif
+  const filteredTransactions = transactions.filter((transaction) =>
+    activeTab === 'all' ? true : transaction.statusTransaksi === activeTab
+  );
+
+  // Handle click on a transaction to view details
+  const handleTransactionClick = (transaction) => {
+    setSelectedTransaction(transaction);
+  };
+
+  // Handle closing the detail view
+  const handleCloseDetails = () => {
+    setSelectedTransaction(null);
+  };
 
   // If loading, show loading indicator
   if (loading) {
@@ -53,24 +68,24 @@ function RiwayatTransaksi() {
     );
   }
 
-  // Handle click on a transaction to view details
-  const handleTransactionClick = (transaction) => {
-    setSelectedTransaction(transaction);
-  };
-
-  // Handle closing the detail view
-  const handleCloseDetails = () => {
-    setSelectedTransaction(null);
-  };
-
   return (
     <div className="min-h-screen bg-green-50 flex flex-col items-center justify-center px-6 py-10">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl">
+
+
         {/* Header */}
         <h1 className="text-lg md:text-2xl font-bold text-green-700 mb-4 flex items-center justify-center">
           <FaTrash className="text-green-500 mr-3" />
           Riwayat Transaksi
         </h1>
+
+        
+        {/* Divider */}
+        <hr className="my-6 border-gray-300 w-full" />
+
+        {/* Tab Menu Transaksi */}
+        <TabMenuTransaksi activeTab={activeTab} setActiveTab={setActiveTab} />
+
 
         <p className="text-gray-600 mb-8 text-center">
           Berikut adalah daftar transaksi sampah yang telah Anda lakukan.
@@ -86,12 +101,10 @@ function RiwayatTransaksi() {
 
         {/* List of Transactions */}
         <div className="space-y-4">
-          {transactions.map((item) => (
+          {filteredTransactions.map((item) => (
             <div
               key={item.id}
               className="bg-white shadow-md p-4 rounded-lg hover:shadow-lg transition-transform transform hover:scale-105 relative"
-              onClick={() => handleTransactionClick(item)} // Click to see details
-
             >
               <div className="grid grid-cols-5 gap-4 items-center">
                 {/* Tanggal Transaksi */}
@@ -129,22 +142,41 @@ function RiwayatTransaksi() {
                   {item.pengepul?.lokasi || 'Lokasi tidak tersedia'}
                 </span>
               </div>
+
+              {/* Button Antar Sekarang dan Lihat Detail */}
+              <div className="mt-4 text-end flex justify-end items-center space-x-4">
+                {item.statusTransaksi !== 'success' && item.pengepul?.lokasiUrl && (
+                  <a
+                    href={item.pengepul.lokasiUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center bg-green-600 text-white py-1 px-3 text-sm rounded-lg shadow-md hover:bg-green-700 transition-transform transform hover:scale-105"
+                  >
+                    <FaTruck className="mr-2" /> Antar Sekarang
+                  </a>
+                )}
+                <button
+                  onClick={() => handleTransactionClick(item)}
+                  className="inline-flex items-center justify-center bg-blue-600 text-white py-1 px-3 text-sm rounded-lg shadow-md hover:bg-blue-700 transition-transform transform hover:scale-105"
+                >
+                  Lihat Detail
+                </button>
+              </div>
             </div>
           ))}
         </div>
-
 
         {/* Summary Section */}
         <div className="mt-8 bg-green-100 p-4 rounded-lg shadow-inner">
           <h3 className="text-green-700 font-bold mb-2 text-lg">Ringkasan:</h3>
           <p className="text-gray-600">
-            Total transaksi: <span className="font-bold">{transactions.length}</span>
+            Total transaksi: <span className="font-bold">{filteredTransactions.length}</span>
           </p>
           <p className="text-gray-600">
             Total pendapatan:{" "}
             <span className="font-bold text-green-700">
               Rp{" "}
-              {transactions.reduce((total, item) => total + item.totalTransaksi, 0).toLocaleString()}
+              {filteredTransactions.reduce((total, item) => total + item.totalTransaksi, 0).toLocaleString()}
             </span>
           </p>
         </div>
