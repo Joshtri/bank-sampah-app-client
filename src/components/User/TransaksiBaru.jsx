@@ -1,208 +1,218 @@
 import React, { useState, useEffect } from 'react';
-import { FaTrash, FaCartPlus, FaTrashAlt } from 'react-icons/fa'; // New icons
-import { motion } from 'framer-motion'; // Animation library
+import { useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import useUserProfile from '../../hooks/useUserProfile.js';
-import axios from 'axios';  // Import axios
+import axios from 'axios';
 
 function TransaksiBaru() {
-  const [quantity, setQuantity] = useState(0); // Jumlah sampah (kg)
-  const [pricePerKg, setPricePerKg] = useState(0); // Harga per kg
-  const [itemSampahList, setItemSampahList] = useState([]); // List of waste items
-  const [selectedItemSampah, setSelectedItemSampah] = useState(''); // Selected waste item
-  const [cart, setCart] = useState([]); // Cart to hold selected items
-  const userProfile = useUserProfile();  // Mendapatkan profil pengguna
+  const location = useLocation();
+  const userProfile = useUserProfile();
 
-  // Fetch the list of waste items (itemSampah) from the API
+  // Fetch pengepul from state (if redirected from dashboard)
+  const selectedPengepulFromState = location.state?.selectedPengepul || null;
+
+  const [pengepulList, setPengepulList] = useState([]); // List of available pengepul
+  const [selectedPengepul, setSelectedPengepul] = useState(selectedPengepulFromState); // Selected pengepul
+  const [itemSampahList, setItemSampahList] = useState([]); // List of items for selected pengepul
+  const [selectedItemSampah, setSelectedItemSampah] = useState(''); // Selected item
+  const [quantity, setQuantity] = useState(0); // Quantity
+  const [cart, setCart] = useState([]); // Cart for items
+
+  // Fetch pengepul list from API
+  useEffect(() => {
+    const fetchPengepul = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/pengepul-diterima`);
+        setPengepulList(response.data.data || []);
+      } catch (error) {
+        console.error('Error fetching pengepul data:', error);
+      }
+    };
+
+    fetchPengepul();
+  }, []);
+
+  // Fetch item sampah based on selected pengepul
   useEffect(() => {
     const fetchItemSampah = async () => {
+      if (!selectedPengepul) return;
+
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/item/sampah`);
-        if (response.data.status === 'success' && Array.isArray(response.data.data)) {
-          setItemSampahList(response.data.data);
-        }
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/item/sampah?pengepulId=${selectedPengepul.id}`);
+        setItemSampahList(response.data.data || []);
       } catch (error) {
-        console.error('Error fetching item sampah data', error);
+        console.error('Error fetching item sampah data:', error);
       }
     };
 
     fetchItemSampah();
-  }, []);
+  }, [selectedPengepul]);
 
-  // Handle the selection of waste item and set price per kg
-  const handleItemSampahChange = (e) => {
-    const selectedId = e.target.value;
-    setSelectedItemSampah(selectedId);
-
-    const selectedItem = itemSampahList.find(item => item.id === selectedId);
-    setPricePerKg(selectedItem ? selectedItem.hargaPerKg : 0);
-  };
-
-  // Fungsi untuk menghitung total harga berdasarkan quantity dan harga per kg
-  const handleQuantityChange = (e) => {
-    const value = e.target.value ? parseInt(e.target.value) : 0;
-    setQuantity(value);
-  };
-
-  // Fungsi untuk menambah item ke cart
   const handleAddToCart = () => {
     if (!selectedItemSampah || quantity <= 0) {
-      alert("Please select an item and enter a valid quantity.");
+      alert('Please select an item and enter a valid quantity.');
       return;
     }
 
-    // Find the selected item
-    const selectedItem = itemSampahList.find(item => item.id === selectedItemSampah);
+    const selectedItem = itemSampahList.find((item) => item.id === selectedItemSampah);
     if (!selectedItem) return;
 
     const totalPrice = quantity * selectedItem.hargaPerKg;
 
-    // Add the item to the cart
     setCart([...cart, {
       itemId: selectedItem.id,
       itemName: selectedItem.nama,
       pricePerKg: selectedItem.hargaPerKg,
       quantity,
-      total: totalPrice
+      total: totalPrice,
     }]);
 
-    // Reset the selected item and quantity after adding to the cart
     setSelectedItemSampah('');
     setQuantity(0);
   };
 
-  // Fungsi untuk menghapus item dari cart
   const handleRemoveFromCart = (itemId) => {
-    setCart(cart.filter(item => item.itemId !== itemId));
+    setCart(cart.filter((item) => item.itemId !== itemId));
   };
 
-  // Fungsi untuk submit transaksi
   const handleSubmit = async () => {
     if (!userProfile || !userProfile.id) {
-      alert("User not found. Please log in.");
+      alert('User not found. Please log in.');
       return;
     }
-  
+
+    if (!selectedPengepul) {
+      alert('Please select a pengepul.');
+      return;
+    }
+
     if (cart.length === 0) {
-      alert("Please add at least one item to the cart.");
+      alert('Please add at least one item to the cart.');
       return;
     }
-  
+
     const transaksiData = {
-      anggotaId: userProfile.id, // Pastikan anggotaId dikirim
+      anggotaId: userProfile.id,
+      pengepulId: selectedPengepul.id,
       totalTransaksi: cart.reduce((sum, item) => sum + item.total, 0),
-      itemTransaksi: cart.map(item => ({
+      itemTransaksi: cart.map((item) => ({
         itemSampahId: item.itemId,
-        kuantitas: item.quantity,
-        totalHarga: item.total
-      }))
+        kuantitas: parseFloat(item.quantity),
+        totalHarga: parseFloat(item.total),
+      })),
     };
-  
-    console.log('Payload yang dikirim:', transaksiData); // Debugging
-  
+
+    console.log('Transaksi Data to Submit:', transaksiData);
+
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/transaksi/${userProfile.id}/create`, transaksiData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-  
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/transaksi/${userProfile.id}/create`,
+        transaksiData,
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+
       if (response.data.status === 'success') {
         alert('Transaksi berhasil!');
-        setCart([]); // Clear cart after successful transaction
+        setCart([]);
       } else {
         alert('Error creating transaksi: ' + response.data.message);
       }
     } catch (error) {
-      console.error('Error creating transaksi:', error);
+      console.error('Error creating transaksi:', error.response?.data || error);
       alert('Terjadi kesalahan saat memproses transaksi.');
     }
   };
-  
 
   return (
-    <div className="min-h-screen bg-green-50 flex items-center justify-center px-6 py-10">
-      <motion.div 
-        className="bg-white shadow-lg rounded-lg p-8 w-full max-w-xl"
-        initial={{ opacity: 0 }} 
-        animate={{ opacity: 1 }} 
-        transition={{ duration: 0.5 }}
-      >
-        {/* Heading */}
-        <h1 className="text-2xl md:text-3xl font-bold text-green-700 mb-6 text-center flex items-center justify-center">
-          <FaTrash className="text-green-500 mr-3" />
-          Transaksi Baru
-        </h1>
-        <p className="text-gray-600 mb-8 text-center">
-          Tambahkan data transaksi sampah Anda dan dapatkan keuntungan.
-        </p>
+    <div className="min-h-screen bg-green-50 flex flex-col items-center justify-center px-6 py-10">
+      {/* Pengepul Selection */}
+      <h2 className="text-xl font-bold text-green-700 mb-4">Pilih Pengepul</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-4xl">
+        {pengepulList.map((pengepul) => (
+          <motion.div
+            key={pengepul.id}
+            className={`p-4 border rounded-lg shadow-md ${
+              selectedPengepul?.id === pengepul.id ? 'border-green-500 bg-green-50' : 'border-gray-300'
+            }`}
+            onClick={() => setSelectedPengepul(pengepul)}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <img src={pengepul.thumbnailPengapul || '/placeholder.png'} alt="Pengepul Thumbnail" className="w-full h-40 object-cover rounded-md mb-3" />
+            <h3 className="text-lg font-bold text-gray-800">{pengepul.namaBankSampah || pengepul.nama}</h3>
+            <p className="text-sm text-gray-600">{pengepul.deskripsiBankSampah}</p>
+            <p className="text-sm text-gray-600 mt-2">
+              <strong>Rating:</strong> {pengepul.rating || 'N/A'}
+            </p>
+          </motion.div>
+        ))}
+      </div>
 
-        {/* Form */}
-        <form className="space-y-6">
-          {/* Input: Jenis Sampah */}
+      {/* Form */}
+      {selectedPengepul && (
+        <motion.div
+          className="bg-white shadow-lg rounded-lg p-8 w-full max-w-xl mt-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h3 className="text-lg font-bold text-green-700 mb-4">Transaksi dengan {selectedPengepul.namaBankSampah || selectedPengepul.nama}</h3>
+
+          {/* Select Item Sampah */}
           <div>
             <label className="block text-gray-700 font-medium mb-2">Jenis Sampah</label>
             <select
               value={selectedItemSampah}
-              onChange={handleItemSampahChange}
+              onChange={(e) => setSelectedItemSampah(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 focus:outline-none"
             >
               <option value="">Pilih Jenis Sampah</option>
-              {itemSampahList.length > 0 ? (
-                itemSampahList.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.nama} - Rp {item.hargaPerKg} per kg
-                  </option>
-                ))
-              ) : (
-                <option disabled>No Item Sampah Available</option>
-              )}
+              {itemSampahList.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.nama} - Rp {item.hargaPerKg} per kg
+                </option>
+              ))}
             </select>
           </div>
 
-          {/* Input: Berat Sampah */}
-          <div>
+          {/* Quantity */}
+          <div className="mt-4">
             <label className="block text-gray-700 font-medium mb-2">Berat Sampah (kg)</label>
             <input
               type="number"
               value={quantity}
-              onChange={handleQuantityChange}
+              onChange={(e) => setQuantity(e.target.value)}
               min="0"
               className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 focus:outline-none"
               placeholder="Masukkan berat sampah Anda"
             />
           </div>
 
-          {/* Button to Add to Cart */}
+          {/* Add to Cart */}
           <motion.button
             type="button"
             onClick={handleAddToCart}
-            className="w-full bg-green-700 text-white px-4 py-3 rounded-lg font-semibold shadow-md hover:bg-green-800 transition-transform transform hover:scale-105"
+            className="w-full bg-green-700 text-white px-4 py-3 rounded-lg font-semibold shadow-md hover:bg-green-800 transition-transform transform hover:scale-105 mt-4"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <FaCartPlus className="mr-2 inline" />
             Tambah ke Keranjang
           </motion.button>
 
-          {/* Display Cart */}
-          <div className="mt-6">
-            <h2 className="text-xl font-bold text-green-700">Keranjang</h2>
-            <div className="space-y-4">
-              {cart.map((item) => (
-                <div key={item.itemId} className="bg-gray-100 p-4 rounded-lg flex justify-between items-center">
-                  <span>{item.itemName} - {item.quantity} kg</span>
-                  <span>Rp {item.total.toLocaleString()}</span>
-                  <motion.button
-                    onClick={() => handleRemoveFromCart(item.itemId)}
-                    className="text-red-500 hover:text-red-700"
-                    whileHover={{ scale: 1.1 }}
-                  >
-                    <FaTrashAlt />
-                  </motion.button>
-                </div>
-              ))}
+          {/* Cart */}
+          {cart.length > 0 && (
+            <div className="mt-6">
+              <h4 className="text-lg font-bold text-green-700">Keranjang</h4>
+              <ul className="space-y-2">
+                {cart.map((item) => (
+                  <li key={item.itemId} className="bg-gray-100 p-3 rounded-lg flex justify-between items-center">
+                    <span>{item.itemName} - {item.quantity} kg</span>
+                    <span>Rp {item.total.toLocaleString()}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
+          )}
 
           {/* Submit Button */}
           <motion.button
@@ -214,8 +224,8 @@ function TransaksiBaru() {
           >
             Proses Transaksi
           </motion.button>
-        </form>
-      </motion.div>
+        </motion.div>
+      )}
     </div>
   );
 }
