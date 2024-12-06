@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function LoginAnggota() {
-  const navigate = useNavigate();  // Untuk navigasi setelah Anggota berhasil
+  const navigate = useNavigate();  // Untuk navigasi setelah login berhasil
   const [formData, setFormData] = useState({
     email: '',
     kataSandi: '',
@@ -15,12 +15,12 @@ function LoginAnggota() {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  // Fungsi untuk menangani Anggota
-  const handleAnggota = async (e) => {
+  // Fungsi untuk menangani login
+  const handleLogin = async (e) => {
     e.preventDefault();  // Mencegah reload halaman ketika form disubmit
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/anggota/Anggota`, {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/anggota/login`, {
         email: formData.email,
         kataSandi: formData.kataSandi,
       });
