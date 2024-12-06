@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaTrash, FaCalendarAlt } from 'react-icons/fa';
+import { FaTrash, FaCalendarAlt, FaMapMarkedAlt } from 'react-icons/fa';
 import useUserProfile from '../../../hooks/useUserProfile'; // Import custom hook
 import axios from 'axios';
 import DetailTransaksi from '../RiwayatTransaksi/DetailTransaksi'; // Import the new TransactionDetail component
@@ -89,28 +89,50 @@ function RiwayatTransaksi() {
           {transactions.map((item) => (
             <div
               key={item.id}
-              className="grid grid-cols-4 items-center bg-white shadow-md p-4 rounded-lg hover:shadow-lg transition duration-300 transform hover:scale-105 relative"
+              className="bg-white shadow-md p-4 rounded-lg hover:shadow-lg transition-transform transform hover:scale-105 relative"
               onClick={() => handleTransactionClick(item)} // Click to see details
+
             >
-              <div className="flex items-center space-x-2 text-gray-600">
-                <FaCalendarAlt className="text-green-500" />
-                <span>{new Date(item.tanggalTransaksi).toLocaleDateString()}</span> {/* Format date */}
-              </div>
-              <div className="text-gray-700 font-medium">
-                {item.itemTransaksi.map(trans => trans.itemSampah.kategoriSampah.nama).join(', ')}
-              </div>
-              <div className="text-gray-700 font-medium">
-                {item.itemTransaksi.reduce((total, trans) => total + trans.kuantitas, 0)} kg
-              </div>
-              <div className="text-green-700 font-bold">
-                Rp {item.totalTransaksi.toLocaleString()}
+              <div className="grid grid-cols-5 gap-4 items-center">
+                {/* Tanggal Transaksi */}
+                <div className="flex items-center space-x-2 text-gray-600">
+                  <FaCalendarAlt className="text-green-500" />
+                  <span>{new Date(item.tanggalTransaksi).toLocaleDateString()}</span>
+                </div>
+
+                {/* Jenis Sampah */}
+                <div className="text-gray-700 font-medium">
+                  {item.itemTransaksi.map((trans) => trans.itemSampah.kategoriSampah.nama).join(', ')}
+                </div>
+
+                {/* Berat Sampah */}
+                <div className="text-gray-700 font-medium">
+                  {item.itemTransaksi.reduce((total, trans) => total + trans.kuantitas, 0)} kg
+                </div>
+
+                {/* Total Harga */}
+                <div className="text-green-700 font-bold">
+                  Rp {item.totalTransaksi.toLocaleString()}
+                </div>
+
+                {/* Status */}
+                <StatusIndicator status={item.statusTransaksi} />
               </div>
 
-              {/* Shared Status Indicator */}
-              <StatusIndicator status={item.statusTransaksi} />
+              {/* Informasi Pengepul */}
+              <div className="mt-2 text-sm text-gray-500 flex items-center justify-between border-t pt-2">
+                <span>
+                  <strong>Pengepul:</strong> {item.pengepul?.namaBankSampah || 'N/A'}
+                </span>
+                <span className="text-green-600">
+                  <FaMapMarkedAlt className="inline-block mr-1" />
+                  {item.pengepul?.lokasi || 'Lokasi tidak tersedia'}
+                </span>
+              </div>
             </div>
           ))}
         </div>
+
 
         {/* Summary Section */}
         <div className="mt-8 bg-green-100 p-4 rounded-lg shadow-inner">
