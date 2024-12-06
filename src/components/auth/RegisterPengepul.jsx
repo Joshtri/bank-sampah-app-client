@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Untuk navigasi setelah registrasi
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import LoadingButton from '../LoadingButton';
 
 function RegisterPengepul() {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ function RegisterPengepul() {
   const [cities, setCities] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [subdistricts, setSubdistricts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false); // State untuk loading status
 
   useEffect(() => {
     // Fetch provinces on component mount
@@ -85,25 +87,27 @@ function RegisterPengepul() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);  // Set loading ke true saat login dimulai
+
 
     const formDataToSend = new FormData();
-formDataToSend.append('nama', formData.nama);
-formDataToSend.append('email', formData.email);
-formDataToSend.append('kataSandi', formData.kataSandi);
-formDataToSend.append('noTelepon', formData.noTelepon);
-formDataToSend.append('alamat', formData.alamat);
-formDataToSend.append('namaBankSampah', formData.namaBankSampah);
-formDataToSend.append('deskripsiBankSampah', formData.deskripsiBankSampah);
-formDataToSend.append('provinsi', formData.provinsi);
-formDataToSend.append('kabupaten', formData.kabupaten);
-formDataToSend.append('kecamatan', formData.kecamatan);
-formDataToSend.append('kelurahan', formData.kelurahan);
+    formDataToSend.append('nama', formData.nama);
+    formDataToSend.append('email', formData.email);
+    formDataToSend.append('kataSandi', formData.kataSandi);
+    formDataToSend.append('noTelepon', formData.noTelepon);
+    formDataToSend.append('alamat', formData.alamat);
+    formDataToSend.append('namaBankSampah', formData.namaBankSampah);
+    formDataToSend.append('deskripsiBankSampah', formData.deskripsiBankSampah);
+    formDataToSend.append('provinsi', formData.provinsi);
+    formDataToSend.append('kabupaten', formData.kabupaten);
+    formDataToSend.append('kecamatan', formData.kecamatan);
+    formDataToSend.append('kelurahan', formData.kelurahan);
 
-if (formData.lokasiUrl) {
-  formDataToSend.append('lokasiUrl', formData.lokasiUrl);
-}
-if (formData.dokumenPrasyarat) {
-  formDataToSend.append('dokumenPrasyarat', formData.dokumenPrasyarat);
+    if (formData.lokasiUrl) {
+      formDataToSend.append('lokasiUrl', formData.lokasiUrl);
+    }
+    if (formData.dokumenPrasyarat) {
+      formDataToSend.append('dokumenPrasyarat', formData.dokumenPrasyarat);
 }
 
   
@@ -139,6 +143,9 @@ if (formData.dokumenPrasyarat) {
       } else {
         alert('Terjadi kesalahan, silakan coba lagi.');
       }
+    }finally{
+      setIsLoading(false);  // Set loading ke false setelah selesai
+
     }
   };
   
@@ -441,12 +448,18 @@ if (formData.dokumenPrasyarat) {
       </div>
 
       {/* Submit Button */}
-      <button
+      {/* <button
         type="submit"
         className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-300 mt-6"
       >
         Daftar sebagai Pengepul
-      </button>
+      </button> */}
+      {/* Gunakan komponen LoadingButton */}
+      <LoadingButton
+          type="submit"
+          isLoading={isLoading}
+        >Daftar
+      </LoadingButton>
       
     </form>
     <p className="text-center text-sm text-gray-500 mt-4">
