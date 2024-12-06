@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import useUserProfile from '../../hooks/useUserProfile.js';
 import axios from 'axios';
 import LoadingButton from '../LoadingButton.jsx';
+import { FaRecycle, FaCartPlus, FaTrash, FaPaperPlane } from 'react-icons/fa';
+import ModalNotification from '../shared/ModalNotification.jsx';
 
 function TransaksiBaru() {
   const location = useLocation();
   const userProfile = useUserProfile();
   const [isLoading, setIsLoading] = useState(false); // State untuk loading status
+  const [isModalVisible, setIsModalVisible] = useState(false); // State untuk modal
+  const [modalMessage, setModalMessage] = useState(''); // State untuk pesan modal
+
 
   // Fetch pengepul from state (if redirected from dashboard)
   const selectedPengepulFromState = location.state?.selectedPengepul || null;
@@ -84,7 +89,6 @@ function TransaksiBaru() {
       alert('User not found. Please log in.');
       return;
     }
-    
 
     if (!selectedPengepul) {
       alert('Please select a pengepul.');
@@ -117,7 +121,9 @@ function TransaksiBaru() {
       );
 
       if (response.data.status === 'success') {
-        alert('Transaksi berhasil!');
+        setModalMessage('Transaksi berhasil!');
+        setIsModalVisible(true);
+        // alert('Transaksi berhasil!');
         setCart([]);
       } else {
         alert('Error creating transaksi: ' + response.data.message);
@@ -125,16 +131,23 @@ function TransaksiBaru() {
     } catch (error) {
       console.error('Error creating transaksi:', error.response?.data || error);
       alert('Terjadi kesalahan saat memproses transaksi.');
-    }
-    finally{
-      setIsLoading(false)
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-green-50 flex flex-col items-center justify-center px-6 py-10">
+    <div className="bg-green-50 flex flex-col items-center justify-center px-6 py-10">
+      {/* Modal Notification */}
+      <ModalNotification
+        isVisible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        message={modalMessage}
+      />
       {/* Pengepul Selection */}
-      <h2 className="text-xl font-bold text-green-700 mb-4">Pilih Pengepul</h2>
+      <h2 className="text-xl font-bold text-green-700 mb-4 flex items-center">
+        <FaRecycle className="mr-2" /> Pilih Pengepul
+      </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-4xl">
         {pengepulList.map((pengepul) => (
           <motion.div
@@ -177,7 +190,7 @@ function TransaksiBaru() {
               <option value="">Pilih Jenis Sampah</option>
               {itemSampahList.map((item) => (
                 <option key={item.id} value={item.id}>
-                  {item.nama} - Rp {item.hargaPerKg} per kg
+                    {item.nama} - Rp {item.hargaPerKg.toLocaleString('id-ID')} per kg
                 </option>
               ))}
             </select>
@@ -200,11 +213,11 @@ function TransaksiBaru() {
           <motion.button
             type="button"
             onClick={handleAddToCart}
-            className="w-full bg-green-700 text-white px-4 py-3 rounded-lg font-semibold shadow-md hover:bg-green-800 transition-transform transform hover:scale-105 mt-4"
+            className="w-full bg-green-700 text-white px-4 py-3 rounded-lg font-semibold shadow-md hover:bg-green-800 transition-transform transform hover:scale-105 mt-4 flex items-center justify-center"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Tambah ke Keranjang
+            <FaCartPlus className="mr-2" /> Tambah ke Keranjang
           </motion.button>
 
           {/* Cart */}
@@ -216,28 +229,25 @@ function TransaksiBaru() {
                   <li key={item.itemId} className="bg-gray-100 p-3 rounded-lg flex justify-between items-center">
                     <span>{item.itemName} - {item.quantity} kg</span>
                     <span>Rp {item.total.toLocaleString()}</span>
+                    <button
+                      onClick={() => handleRemoveFromCart(item.itemId)}
+                      className="text-red-500 hover:text-red-700 ml-4 flex items-center"
+                    >
+                      <FaTrash className="mr-1" /> Hapus
+                    </button>
                   </li>
                 ))}
               </ul>
             </div>
           )}
 
-          {/* Submit Button */}
-
-            <LoadingButton
-              type="submit"
-              isLoading={isLoading}
-              >Proses Transaksi
-            </LoadingButton>
-          {/* <motion.button
+          <LoadingButton
             type="button"
             onClick={handleSubmit}
-            className="w-full bg-green-700 text-white px-4 py-3 rounded-lg font-semibold shadow-md hover:bg-green-800 transition-transform transform hover:scale-105 mt-6"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            isLoading={isLoading}
           >
-            Proses Transaksi
-          </motion.button> */}
+            <FaPaperPlane className="mr-2" /> Proses Transaksi
+          </LoadingButton>
         </motion.div>
       )}
     </div>
