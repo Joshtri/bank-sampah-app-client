@@ -1,9 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import errorImg from '../assets/3737258.png';
 
 const NotFoundPage = () => {
+  const navigate = useNavigate();
+  const handleGoBack  = ()=>{
+    navigate(-1);
+  }
+
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-r from-green-400 to-blue-300 text-white text-center">
       
@@ -38,12 +43,12 @@ const NotFoundPage = () => {
         transition={{ duration: 1, ease: "easeOut" }}
         className="mt-6"
       >
-        <Link
-          to="/"
+        <button
+          onClick={handleGoBack}
           className="px-6 py-3 bg-white text-green-500 font-medium rounded-lg shadow hover:bg-green-500 hover:text-white transition duration-300 ease-in-out"
         >
           Kembali ke Beranda
-        </Link>
+        </button>
       </motion.div>
     </div>
   );
