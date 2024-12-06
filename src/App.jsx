@@ -4,8 +4,8 @@ import { useState } from 'react'
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import MainPage from './pages/MainPage'
-import RegisterPage from './pages/RegisterPage'
-import LoginPage from './pages/LoginPage'
+import RegisterAnggotaPage from './pages/auth/RegisterAnggotaPage'
+import LoginAnggotaPage from './pages/auth/LoginAnggotaPage'
 import DashboardPage from './pages/User/DashboardPage'
 import PoinSayaPage from './pages/User/PoinSayaPage'
 import TransaksiBaruPage from './pages/User/TransaksiBaruPage'
@@ -26,8 +26,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<MainPage/>}/>
-          <Route path="/buat-akun/masyarakat" element={<RegisterPage />} />
-          <Route path="/masuk" element={<LoginPage />} />
+          <Route path="/buat-akun/masyarakat" element={<RegisterAnggotaPage />} />
+          <Route path="/masuk" element={<LoginAnggotaPage />} />
 
           <Route path='/buat-akun/pengepul' element={<RegisterPengepulPage/>}/>
 
