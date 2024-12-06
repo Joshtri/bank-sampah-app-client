@@ -447,6 +447,7 @@ if (formData.dokumenPrasyarat) {
       >
         Daftar sebagai Pengepul
       </button>
+      
     </form>
     <p className="text-center text-sm text-gray-500 mt-4">
       Sudah punya akun?{' '}

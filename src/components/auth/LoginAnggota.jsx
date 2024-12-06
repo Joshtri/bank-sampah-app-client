@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import LoadingButton from '../../components/LoadingButton';  // Mengimpor komponen LoadingButton
+
 import axios from 'axios';
 
 function LoginAnggota() {
@@ -9,6 +11,7 @@ function LoginAnggota() {
     kataSandi: '',
   });
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); // State untuk loading status
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,6 +21,7 @@ function LoginAnggota() {
   // Fungsi untuk menangani login
   const handleLogin = async (e) => {
     e.preventDefault();  // Mencegah reload halaman ketika form disubmit
+    setIsLoading(true);  // Set loading ke true saat login dimulai
 
     try {
       const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/anggota/login`, {
@@ -40,6 +44,10 @@ function LoginAnggota() {
       console.error('Login failed:', error.response?.data || error.message);
       setError('Email atau kata sandi salah');
     }
+    finally {
+      setIsLoading(false);  // Set loading ke false setelah selesai
+    }
+
   };
 
   return (
@@ -88,12 +96,20 @@ function LoginAnggota() {
             />
           </div>
 
-          <button
+          {/* <button
             type="submit"
             className="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300"
           >
             Masuk
-          </button>
+          </button> */}
+
+        {/* Gunakan komponen LoadingButton */}
+        <LoadingButton
+            type="submit"
+            isLoading={isLoading}
+          >
+            Masuk
+          </LoadingButton>
         </form>
 
         <p className="text-center text-sm text-gray-500 mt-4">
