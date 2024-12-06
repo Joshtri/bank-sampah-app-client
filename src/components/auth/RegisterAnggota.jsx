@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Untuk navigasi setelah registrasi
+import LoadingButton from '../LoadingButton';
 
 function RegisterAnggota() {
   const navigate = useNavigate();
@@ -12,13 +13,18 @@ function RegisterAnggota() {
     alamat: '',
   });
 
+  const [isLoading, setIsLoading] = useState(false); // State untuk loading status
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);  // Set loading ke true saat login dimulai
 
     // Validasi kataSandi minimal 6 karakter
     if (formData.kataSandi.length < 6) {
@@ -44,6 +50,8 @@ function RegisterAnggota() {
       } else {
         alert('Terjadi kesalahan, silakan coba lagi.');
       }
+    }finally{
+      setIsLoading(false)
     }
   };
 
@@ -139,12 +147,18 @@ function RegisterAnggota() {
           </div>
 
           {/* Submit Button */}
-          <button
+          {/* <button
             type="submit"
             className="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300"
           >
             Daftar
-          </button>
+          </button> */}
+
+          <LoadingButton
+            type="submit"
+            isLoading={isLoading}
+          >Daftar
+        </LoadingButton>
         </form>
         <p className="text-center text-sm text-gray-500 mt-4">
           Sudah punya akun?{' '}
