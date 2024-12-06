@@ -5,7 +5,7 @@ function LoadingButton({ isLoading, children, ...props }) {
   return (
     <button
       {...props}
-      className={`w-full bg-green-700 text-white px-4 py-3 rounded-lg font-semibold shadow-md hover:bg-green-800 transition-transform transform hover:scale-105 mt-6 ${
+      className={`w-full py-2 px-4 rounded-lg font-semibold shadow-md transition-transform transform hover:scale-105 mt-6 flex items-center justify-center ${
         isLoading ? 'bg-gray-500 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'
       } text-white`}
       disabled={isLoading}
@@ -36,7 +36,9 @@ function LoadingButton({ isLoading, children, ...props }) {
           <span>Loading...</span>
         </div>
       ) : (
-        children
+        <div className="flex items-center space-x-2">
+          {children}
+        </div>
       )}
     </button>
   );
