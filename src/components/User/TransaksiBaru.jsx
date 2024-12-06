@@ -3,10 +3,12 @@ import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import useUserProfile from '../../hooks/useUserProfile.js';
 import axios from 'axios';
+import LoadingButton from '../LoadingButton.jsx';
 
 function TransaksiBaru() {
   const location = useLocation();
   const userProfile = useUserProfile();
+  const [isLoading, setIsLoading] = useState(false); // State untuk loading status
 
   // Fetch pengepul from state (if redirected from dashboard)
   const selectedPengepulFromState = location.state?.selectedPengepul || null;
@@ -76,10 +78,13 @@ function TransaksiBaru() {
   };
 
   const handleSubmit = async () => {
+    setIsLoading(true);  // Set loading ke true saat login dimulai
+
     if (!userProfile || !userProfile.id) {
       alert('User not found. Please log in.');
       return;
     }
+    
 
     if (!selectedPengepul) {
       alert('Please select a pengepul.');
@@ -120,6 +125,9 @@ function TransaksiBaru() {
     } catch (error) {
       console.error('Error creating transaksi:', error.response?.data || error);
       alert('Terjadi kesalahan saat memproses transaksi.');
+    }
+    finally{
+      setIsLoading(false)
     }
   };
 
@@ -215,7 +223,13 @@ function TransaksiBaru() {
           )}
 
           {/* Submit Button */}
-          <motion.button
+
+            <LoadingButton
+              type="submit"
+              isLoading={isLoading}
+              >Proses Transaksi
+            </LoadingButton>
+          {/* <motion.button
             type="button"
             onClick={handleSubmit}
             className="w-full bg-green-700 text-white px-4 py-3 rounded-lg font-semibold shadow-md hover:bg-green-800 transition-transform transform hover:scale-105 mt-6"
@@ -223,7 +237,7 @@ function TransaksiBaru() {
             whileTap={{ scale: 0.95 }}
           >
             Proses Transaksi
-          </motion.button>
+          </motion.button> */}
         </motion.div>
       )}
     </div>
