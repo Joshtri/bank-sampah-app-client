@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaBars, FaTimes, FaTrash, FaList, FaTags, FaUserAlt, FaMapMarkerAlt, FaBook } from 'react-icons/fa';
+import { FaBars, FaTimes, FaTrash, FaList, FaTags, FaUserAlt, FaMapMarkerAlt, FaBook, FaHome } from 'react-icons/fa';
 
 export default function Sidebar({ isSidebarOpen, toggleSidebar }) {
   return (
@@ -23,6 +23,16 @@ export default function Sidebar({ isSidebarOpen, toggleSidebar }) {
 
       <nav className="mt-4">
         <ul className="space-y-2">
+        <li>
+            <Link
+              to="/dashboard"
+              className="flex items-center p-4 hover:bg-green-800 rounded-md"
+            >
+              <FaHome className="mr-3" />
+              Dashboard
+            </Link>
+          </li>
+
           <li>
             <Link
               to="/transaksi-baru"
