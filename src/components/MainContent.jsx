@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { FaRecycle, FaTrashAlt, FaMoneyBillWave, FaHandsHelping, FaLeaf } from 'react-icons/fa';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import Typical from 'react-typical';
+// import Typical from 'react-typical';
 // import { Typed } from 'react-typed'; // Coba cara ini
-import Typewriter from 'typewriter-effect';
+import Typewriter from 'typewriter-effect'; 
 
 function MainContent() {
   const [showFirstParagraph, setShowFirstParagraph] = useState(true);
