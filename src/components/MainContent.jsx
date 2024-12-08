@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { FaRecycle, FaTrashAlt, FaMoneyBillWave, FaHandsHelping, FaLeaf } from 'react-icons/fa';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import Typical from 'react-typical';
+// import { Typed } from 'react-typed'; // Coba cara ini
+import Typewriter from 'typewriter-effect';
 
 function MainContent() {
   const [showFirstParagraph, setShowFirstParagraph] = useState(true);
@@ -33,61 +36,53 @@ function MainContent() {
   return (
     <div className="bg-green-50 min-h-screen">
 {/* Hero Section */}
-      {/* Hero Section */}
-      <section className="bg-green-600 text-white py-20 relative">
-        <div className="container mx-auto px-4 text-center">
-          <motion.h1
-            className="text-4xl font-bold mb-4"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            Selamat Datang di NatureCare
-          </motion.h1>
+<section className="bg-green-600 text-white py-20 relative">
+      <div className="container mx-auto px-4 text-center">
+        {/* Animasi Typing */}
+        {/* Animasi Typing */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+        <h1 className="text-4xl font-bold mb-4">
+          <Typewriter
+            options={{
+              strings: ['Selamat Datang di NatureCare', 'Solusi Digital Bank Sampah Anda'],
+              autoStart: true,
+              loop: true,
+              delay: 50,
+            }}
+          />
+        </h1>
+        </motion.div>
 
-          {/* Paragraf bergantian */}
-          <div className="relative h-24">
-            <AnimatePresence>
-              {showFirstParagraph ? (
-                <motion.p
-                  key="firstParagraph"
-                  className="text-lg absolute left-0 right-0"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.8 }}
-                >
-                  NatureCare adalah platform digital inovatif yang membantu masyarakat, pengepul, dan pemerintah dalam mengelola sampah dengan cara yang lebih cerdas, efisien, dan ramah lingkungan.
-                </motion.p>
-              ) : (
-                <motion.p
-                  key="secondParagraph"
-                  className="text-lg absolute left-0 right-0"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.8 }}
-                >
-                  Kami percaya bahwa sampah bukanlah masalah, melainkan peluang. Dengan NatureCare, Anda dapat berkontribusi dalam menciptakan lingkungan yang lebih bersih, mendukung keberlanjutan, dan mendapatkan manfaat ekonomi dari pengelolaan sampah yang lebih terorganisir.
-                </motion.p>
-              )}
-            </AnimatePresence>
-          </div>
+        {/* Paragraf Tambahan */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+        >
+          <p className="text-lg mb-6">
+            NatureCare adalah platform digital inovatif yang membantu masyarakat, pengepul, dan pemerintah dalam mengelola sampah dengan cara yang lebih cerdas, efisien, dan ramah lingkungan.
+          </p>
+        </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
+        {/* Tombol CTA */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          <Link
+            to="/buat-akun/masyarakat"
+            className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-gray-100 transition duration-300"
           >
-            <Link
-              to="/buat-akun/masyarakat"
-              className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-gray-100 transition duration-300"
-            >
-              Mulai Sekarang
-            </Link>
-          </motion.div>
-        </div>
-      </section>
+            Mulai Sekarang
+          </Link>
+        </motion.div>
+      </div>
+    </section>
 
       {/* Inspirasi Dibuatnya NatureCare */}
       <section className="py-16">
