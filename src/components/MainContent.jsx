@@ -56,15 +56,15 @@ function MainContent() {
         </div>
       </section>
 
-      {/* Inspirasi Bank Sampah */}
+      {/* Inspirasi Dibuatnya NatureCare */}
       <SectionWithAnimation>
         <section className="py-16">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center text-green-700 mb-8">
-              Inspirasi dari Bank Sampah
+              Inspirasi Dibuatnya NatureCare
             </h2>
             <p className="text-center text-gray-700 mb-12">
-              Lihat bagaimana pengelolaan sampah dapat menciptakan manfaat ekonomi dan lingkungan.
+              NatureCare terinspirasi dari berbagai inisiatif pengelolaan sampah yang telah berhasil mendukung keberlanjutan lingkungan dan memberikan manfaat ekonomi bagi masyarakat. 
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {/* Gambar 1 */}
@@ -77,7 +77,7 @@ function MainContent() {
                 <div className="p-4 text-center">
                   <h3 className="text-lg font-semibold text-green-700">Bank Sampah Komunitas</h3>
                   <p className="text-gray-600 text-sm">
-                    Contoh pengelolaan sampah berbasis komunitas yang sukses mendukung lingkungan bersih.
+                    Komunitas lokal yang berhasil mengubah sampah menjadi sumber daya berharga, menjadi inspirasi dalam pengembangan platform NatureCare.
                   </p>
                 </div>
               </div>
@@ -85,14 +85,14 @@ function MainContent() {
               {/* Gambar 2 */}
               <div className="rounded-lg overflow-hidden shadow-lg bg-white">
                 <img
-                  src="https://cdn.antaranews.com/cache/800x533/2020/12/21/WhatsApp-Image-2020-12-21-at-18.19.24.jpeg"
+                  src="https://klikhijau.com/wp-content/uploads/2022/12/Peduli-Warga-di-Kelurahan-Sudiang-Raya-Kota-Makassar-Bentuk-Bank-Sampah_11zon-768x576.jpeg"
                   alt="Inisiatif Hijau"
                   className="w-full h-56 object-cover"
                 />
                 <div className="p-4 text-center">
-                  <h3 className="text-lg font-semibold text-green-700">Inisiatif Hijau</h3>
+                  <h3 className="text-lg font-semibold text-green-700">Bank Sampah Unit Bragi Indah</h3>
                   <p className="text-gray-600 text-sm">
-                    Gerakan masyarakat untuk mendaur ulang sampah menjadi barang yang bernilai.
+                    Gerakan masyarakat dalam mendaur ulang sampah yang menginspirasi kami untuk menciptakan platform yang mempermudah kolaborasi pengelolaan sampah.
                   </p>
                 </div>
               </div>
@@ -100,14 +100,14 @@ function MainContent() {
               {/* Gambar 3 */}
               <div className="rounded-lg overflow-hidden shadow-lg bg-white">
                 <img
-                  src="https://www.bankbjb.co.id/blog-content/uploads/2021/09/Bank-Sampah.jpg"
+                  src="https://www.bhuanajaya.desa.id/wp-content/uploads/images/bank-sampah-desa.webp"
                   alt="Pengelolaan Sampah Kota"
                   className="w-full h-56 object-cover"
                 />
                 <div className="p-4 text-center">
-                  <h3 className="text-lg font-semibold text-green-700">Pengelolaan Sampah Kota</h3>
+                  <h3 className="text-lg font-semibold text-green-700">Bank Sampah Bligo Beriman</h3>
                   <p className="text-gray-600 text-sm">
-                    Program pengelolaan sampah di kota yang membantu mengurangi limbah ke TPA.
+                    Upaya pengelolaan sampah di kota yang mengurangi limbah dan meningkatkan kesadaran masyarakat, menjadi inspirasi besar untuk NatureCare.
                   </p>
                 </div>
               </div>
