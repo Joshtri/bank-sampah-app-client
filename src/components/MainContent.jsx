@@ -129,12 +129,12 @@ function MainContent() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <div className="rounded-lg overflow-hidden shadow-lg bg-white">
                 <img
-                  src="https://cdn.antaranews.com/cache/800x533/2021/12/16/sampah_kupang.jpg"
+                  src="https://rakyatntt.com/wp-content/uploads/2022/10/sampah-dekat-rujab-walkot.jpg"
                   alt="Sampah Menumpuk di Kupang"
                   className="w-full h-64 object-cover"
                 />
                 <div className="p-4">
-                  <h3 className="text-xl font-semibold text-red-700 mb-2">Sampah di Kota Kupang</h3>
+                  <h3 className="text-xl font-semibold text-red-700 mb-2">Sampah menumpuk dekat rumah jabatan walikota Kupang</h3>
                   <p className="text-gray-600 text-sm">
                     Setiap hari, sampah yang menumpuk di Kota Kupang semakin bertambah. Sampah plastik dan limbah rumah tangga tersebar di berbagai titik yang seharusnya tidak ada sampah.
                   </p>
@@ -143,7 +143,7 @@ function MainContent() {
 
               <div className="rounded-lg overflow-hidden shadow-lg bg-white">
                 <img
-                  src="https://www.mongabay.co.id/wp-content/uploads/2019/08/sampah_di_sungai.jpg"
+                  src="https://asset-2.tstatic.net/kupang/foto/bank/images/jalur-40-kupang-3.jpg"
                   alt="Sampah di Sungai"
                   className="w-full h-64 object-cover"
                 />
