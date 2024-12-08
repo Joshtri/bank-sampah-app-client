@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaRecycle, FaTrashAlt, FaMoneyBillWave, FaHandsHelping, FaLeaf } from 'react-icons/fa';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
 function MainContent() {
+  const [showFirstParagraph, setShowFirstParagraph] = useState(true);
 
+  // Interval untuk mengatur pergantian paragraf
+  // Interval untuk mengatur pergantian paragraf
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowFirstParagraph((prev) => !prev); // Toggle paragraf
+    }, 8000); // Ganti setiap 5 detik
+    return () => clearInterval(interval); // Bersihkan interval saat komponen unmount
+  }, []);
+  
   const SectionWithAnimation = ({ children }) => {
     const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
 
@@ -22,8 +32,9 @@ function MainContent() {
   };
   return (
     <div className="bg-green-50 min-h-screen">
+{/* Hero Section */}
       {/* Hero Section */}
-      <section className="bg-green-600 text-white py-20">
+      <section className="bg-green-600 text-white py-20 relative">
         <div className="container mx-auto px-4 text-center">
           <motion.h1
             className="text-4xl font-bold mb-4"
@@ -31,16 +42,38 @@ function MainContent() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            Selamat Datang di EcoBank
+            Selamat Datang di NatureCare
           </motion.h1>
-          <motion.p
-            className="text-lg mb-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            Solusi Anda untuk pengelolaan sampah yang ramah lingkungan dan bernilai ekonomi, khususnya di NTT.
-          </motion.p>
+
+          {/* Paragraf bergantian */}
+          <div className="relative h-24">
+            <AnimatePresence>
+              {showFirstParagraph ? (
+                <motion.p
+                  key="firstParagraph"
+                  className="text-lg absolute left-0 right-0"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.8 }}
+                >
+                  NatureCare adalah platform digital inovatif yang membantu masyarakat, pengepul, dan pemerintah dalam mengelola sampah dengan cara yang lebih cerdas, efisien, dan ramah lingkungan.
+                </motion.p>
+              ) : (
+                <motion.p
+                  key="secondParagraph"
+                  className="text-lg absolute left-0 right-0"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.8 }}
+                >
+                  Kami percaya bahwa sampah bukanlah masalah, melainkan peluang. Dengan NatureCare, Anda dapat berkontribusi dalam menciptakan lingkungan yang lebih bersih, mendukung keberlanjutan, dan mendapatkan manfaat ekonomi dari pengelolaan sampah yang lebih terorganisir.
+                </motion.p>
+              )}
+            </AnimatePresence>
+          </div>
+
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -57,64 +90,86 @@ function MainContent() {
       </section>
 
       {/* Inspirasi Dibuatnya NatureCare */}
-      <SectionWithAnimation>
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center text-green-700 mb-8">
-              Inspirasi Dibuatnya NatureCare
-            </h2>
-            <p className="text-center text-gray-700 mb-12">
-              NatureCare terinspirasi dari berbagai inisiatif pengelolaan sampah yang telah berhasil mendukung keberlanjutan lingkungan dan memberikan manfaat ekonomi bagi masyarakat. 
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Gambar 1 */}
-              <div className="rounded-lg overflow-hidden shadow-lg bg-white">
-                <img
-                  src="https://dlh.semarangkota.go.id/wp-content/uploads/2021/02/Bank-sampah-image-nu.or_.id.jpg"
-                  alt="Bank Sampah Komunitas"
-                  className="w-full h-56 object-cover"
-                />
-                <div className="p-4 text-center">
-                  <h3 className="text-lg font-semibold text-green-700">Bank Sampah Komunitas</h3>
-                  <p className="text-gray-600 text-sm">
-                    Komunitas lokal yang berhasil mengubah sampah menjadi sumber daya berharga, menjadi inspirasi dalam pengembangan platform NatureCare.
-                  </p>
-                </div>
+      <section className="py-16">
+        <motion.div
+          className="container mx-auto px-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h2 className="text-3xl font-bold text-center text-green-700 mb-8">
+            Inspirasi Dibuatnya NatureCare
+          </h2>
+          <p className="text-center text-gray-700 mb-12">
+            NatureCare terinspirasi dari berbagai inisiatif pengelolaan sampah yang telah berhasil mendukung keberlanjutan lingkungan dan memberikan manfaat ekonomi bagi masyarakat.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Gambar 1 */}
+            <motion.div
+              className="rounded-lg overflow-hidden shadow-lg bg-white"
+              whileHover={{ scale: 1.05 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+            >
+              <img
+                src="https://dlh.semarangkota.go.id/wp-content/uploads/2021/02/Bank-sampah-image-nu.or_.id.jpg"
+                alt="Bank Sampah Komunitas"
+                className="w-full h-56 object-cover"
+              />
+              <div className="p-4 text-center">
+                <h3 className="text-lg font-semibold text-green-700">Bank Sampah Komunitas</h3>
+                <p className="text-gray-600 text-sm">
+                  Komunitas lokal yang berhasil mengubah sampah menjadi sumber daya berharga, menjadi inspirasi dalam pengembangan platform NatureCare.
+                </p>
               </div>
+            </motion.div>
 
-              {/* Gambar 2 */}
-              <div className="rounded-lg overflow-hidden shadow-lg bg-white">
-                <img
-                  src="https://klikhijau.com/wp-content/uploads/2022/12/Peduli-Warga-di-Kelurahan-Sudiang-Raya-Kota-Makassar-Bentuk-Bank-Sampah_11zon-768x576.jpeg"
-                  alt="Inisiatif Hijau"
-                  className="w-full h-56 object-cover"
-                />
-                <div className="p-4 text-center">
-                  <h3 className="text-lg font-semibold text-green-700">Bank Sampah Unit Bragi Indah</h3>
-                  <p className="text-gray-600 text-sm">
-                    Gerakan masyarakat dalam mendaur ulang sampah yang menginspirasi kami untuk menciptakan platform yang mempermudah kolaborasi pengelolaan sampah.
-                  </p>
-                </div>
+            {/* Gambar 2 */}
+            <motion.div
+              className="rounded-lg overflow-hidden shadow-lg bg-white"
+              whileHover={{ scale: 1.05 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <img
+                src="https://klikhijau.com/wp-content/uploads/2022/12/Peduli-Warga-di-Kelurahan-Sudiang-Raya-Kota-Makassar-Bentuk-Bank-Sampah_11zon-768x576.jpeg"
+                alt="Inisiatif Hijau"
+                className="w-full h-56 object-cover"
+              />
+              <div className="p-4 text-center">
+                <h3 className="text-lg font-semibold text-green-700">Bank Sampah Unit Bragi Indah</h3>
+                <p className="text-gray-600 text-sm">
+                  Gerakan masyarakat dalam mendaur ulang sampah yang menginspirasi kami untuk menciptakan platform yang mempermudah kolaborasi pengelolaan sampah.
+                </p>
               </div>
+            </motion.div>
 
-              {/* Gambar 3 */}
-              <div className="rounded-lg overflow-hidden shadow-lg bg-white">
-                <img
-                  src="https://www.bhuanajaya.desa.id/wp-content/uploads/images/bank-sampah-desa.webp"
-                  alt="Pengelolaan Sampah Kota"
-                  className="w-full h-56 object-cover"
-                />
-                <div className="p-4 text-center">
-                  <h3 className="text-lg font-semibold text-green-700">Bank Sampah Bligo Beriman</h3>
-                  <p className="text-gray-600 text-sm">
-                    Upaya pengelolaan sampah di kota yang mengurangi limbah dan meningkatkan kesadaran masyarakat, menjadi inspirasi besar untuk NatureCare.
-                  </p>
-                </div>
+            {/* Gambar 3 */}
+            <motion.div
+              className="rounded-lg overflow-hidden shadow-lg bg-white"
+              whileHover={{ scale: 1.05 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              <img
+                src="https://www.bhuanajaya.desa.id/wp-content/uploads/images/bank-sampah-desa.webp"
+                alt="Pengelolaan Sampah Kota"
+                className="w-full h-56 object-cover"
+              />
+              <div className="p-4 text-center">
+                <h3 className="text-lg font-semibold text-green-700">Bank Sampah Bligo Beriman</h3>
+                <p className="text-gray-600 text-sm">
+                  Upaya pengelolaan sampah di kota yang mengurangi limbah dan meningkatkan kesadaran masyarakat, menjadi inspirasi besar untuk NatureCare.
+                </p>
               </div>
-            </div>
+            </motion.div>
           </div>
-        </section>
-      </SectionWithAnimation>
+        </motion.div>
+      </section>
+
 
       {/* Masalah Sampah di Kota Kupang */}
       <SectionWithAnimation>
