@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import errorImg from '../assets/3737258.png';
@@ -8,6 +8,11 @@ const NotFoundPage = () => {
   const handleGoBack  = ()=>{
     navigate(-1);
   }
+
+  useEffect(() => {
+    // Scroll to the top of the page when the component mounts
+    window.scrollTo(0, 0);
+  }, []); // The empty dependency array ensures this runs only once when the component mounts
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-r from-green-400 to-blue-300 text-white text-center">
