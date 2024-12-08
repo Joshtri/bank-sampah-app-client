@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../Layout'
 import PoinSaya from '../../components/User/PoinSaya'
 import LayoutUser from '../LayoutUser';
@@ -10,6 +10,11 @@ export default function PoinSayaPage() {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  useEffect(() => {
+    // Scroll to the top of the page when the component mounts
+    window.scrollTo(0, 0);
+  }, []); // The empty dependency array ensures this runs only once when the component mounts
   return (
     // <Layout>
     <LayoutUser isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar}>
