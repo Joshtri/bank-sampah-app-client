@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 // import Typical from 'react-typical';
 // import { Typed } from 'react-typed'; // Coba cara ini
-import Typewriter from 'typewriter-effect'; 
+import Typewriter from 'typewriter-effect';
 
 function MainContent() {
   const [showFirstParagraph, setShowFirstParagraph] = useState(true);
@@ -45,7 +45,7 @@ function MainContent() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-        <h1 className="text-4xl font-bold mb-4">
+        <h3 className="text-4xl font-bold mb-4">
           <Typewriter
             options={{
               strings: ['Selamat Datang di NatureCare', 'Solusi Digital Bank Sampah Anda'],
@@ -54,7 +54,7 @@ function MainContent() {
               delay: 50,
             }}
           />
-        </h1>
+        </h3>
         </motion.div>
 
         {/* Paragraf Tambahan */}
