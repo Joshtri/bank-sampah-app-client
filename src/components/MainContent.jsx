@@ -45,7 +45,7 @@ function MainContent() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-        <h3 className="text-4xl font-bold mb-4">
+        <h1 className="text-4xl font-bold mb-4">
           <Typewriter
             options={{
               strings: ['Selamat Datang di NatureCare', 'Solusi Digital Bank Sampah Anda'],
@@ -54,7 +54,7 @@ function MainContent() {
               delay: 50,
             }}
           />
-        </h3>
+        </h1>
         </motion.div>
 
         {/* Paragraf Tambahan */}
