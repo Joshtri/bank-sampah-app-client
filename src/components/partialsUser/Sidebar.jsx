@@ -10,8 +10,17 @@ export default function Sidebar({ isSidebarOpen, toggleSidebar }) {
       } md:translate-x-0 transition-transform duration-300 ease-in-out z-50 overflow-y-auto`} // Menggunakan min-h-screen untuk memastikan sidebar setinggi layar
     >
       <div className="p-4 border-b border-green-600">
-        <h2 className="text-2xl font-bold text-center">Eco Bank</h2>
+        <div className="flex justify-center items-center">
+          <img
+            src="https://bank-sampah-app-client.vercel.app/assets/natureCareLogo-CGWZnto3.png"
+            alt="NatureCare Logo"
+            className="h-12" // Adjust the height to fit your design
+          />
+          <h2 className="text-2xl font-bold text-center ms-2">NatureCare</h2>
+
+        </div>
       </div>
+
       <nav className="mt-4">
         <ul className="space-y-2">
           <li>
