@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { FaTrashAlt } from 'react-icons/fa';
+import natureCareLogo from '../../assets/natureCareLogo.png'
 
 function CustomNavbar() {
   const isLoggedIn = false; // Simulasi kondisi login
@@ -18,13 +19,19 @@ function CustomNavbar() {
   return (
     <nav className="bg-green-600 shadow-md fixed top-0 left-0 w-full z-50">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-        {/* Brand Name with Icon */}
-        <Link
-          to="/"
-          className="text-white text-2xl font-bold flex items-center hover:text-green-200"
-        >
-          <FaTrashAlt className="mr-2" /> EcoBank
-        </Link>
+      {/* Brand Name with Logo Image */}
+      <Link
+        to="/"
+        className="text-white text-2xl font-bold flex items-center hover:text-green-200"
+      >
+        <img
+          src={natureCareLogo} // Replace this with the actual path to your logo image
+          alt="NatureCare Logo"
+          className="w-10 h-10 mr-2" // Adjust width and height as needed
+        />
+        NatureCare
+      </Link>
+
 
         {/* Navigation Links */}
         <div className="hidden md:flex space-x-6">
