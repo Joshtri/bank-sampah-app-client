@@ -104,11 +104,11 @@ function LoginAnggota() {
           </button> */}
 
         {/* Gunakan komponen LoadingButton */}
-        <LoadingButton
+          <LoadingButton
             type="submit"
             isLoading={isLoading}
           >
-            Masuk
+              Masuk
           </LoadingButton>
         </form>
 
