@@ -34,7 +34,7 @@ function RegisterAnggota() {
 
     try {
       // Mengirim data form ke backend
-      const response = await axios.post('http://localhost:5000/api/v1/anggota', formData);
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/anggota`, formData);
 
       console.log('Member registered:', response.data);
       
